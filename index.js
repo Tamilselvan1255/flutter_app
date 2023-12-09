@@ -3,12 +3,15 @@ require('dotenv').config();  // Make sure this line is at the top
 const express = require('express');
 const mongoose = require('mongoose');
 const authController = require('./controllers/authController');
+const cors = require('cors');
+const corsOption = require("./cors/cors");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
+app.use(cors(corsOption));
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
