@@ -7,7 +7,7 @@ const User = require('../models/user');
 // Registration schema
 const registrationSchema = Joi.object({
   username: Joi.string().alphanum().min(3).max(30).required(),
-  email: Joi.string().email().required(),
+  email: Joi.string().email().regex(/^[^\s@]+@gmail\.com$/).required(),
   password: Joi.string().min(6).required(),
   confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
 });
