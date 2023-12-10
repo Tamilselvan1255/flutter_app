@@ -26,23 +26,23 @@ router.post('/register', async (req, res) => {
       });
   
       if (validation.error) {
-        return res.status(400).json({ message: validation.error.details[0].message });
+        return res.status(400).send({ message: validation.error.details[0].message });
       }
   
       // Check if the email is already registered
       const existingUser = await User.findOne({ email });
       if (existingUser) {
-        return res.status(400).json({ message: 'Email already exists' });
+        return res.status(400).send({ message: 'Email already exists' });
       }
   
       // Create a new user without hashing the password
       const newUser = new User({ username, email, password });
       await newUser.save();
   
-      res.status(201).json({ message: 'User registered successfully' });
+      res.status(201).send({ message: 'User registered successfully' });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: `Internal Server Error: ${error.message}` });
+      res.status(500).send({ message: `Internal Server Error: ${error.message}` });
     }
   });
   
@@ -54,20 +54,14 @@ router.post('/login', async (req, res) => {
       const user = await User.findOne({ email });
   
       if (!user || user.password.trim() !== password.trim()) {
-        return res.status(401).json({ message: 'Invalid credentials' });
+        return res.status(401).send({ message: 'Invalid credentials' });
       }
   
-      res.status(200).json({ message: 'Login successful!' });
+      res.status(200).send({ message: 'Login successful!' });
     } catch (error) {
       console.error('Error during login:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+      res.status(500).send({ message: 'Internal Server Error' });
     }
 });
-
-  
-  
-  
-
-  
 
 module.exports = router;
